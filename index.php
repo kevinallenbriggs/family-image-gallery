@@ -25,9 +25,12 @@ body {
 
 /* Create four equal columns that sits next to each other */
 .column {
-  -ms-flex: 25%; /* IE10 */
-  flex: 25%;
-  max-width: 25%;
+  /* -ms-flex: 25%; /* IE10 */
+  -ms-flex: 33.333%; /* IE10 */
+  /*flex: 25%;*/
+  flex: 33.333%;
+  /*max-width: 25%;*/
+  max-width: 33.333%;
   padding: 0 4px;
 }
 
@@ -38,7 +41,7 @@ body {
 }
 
 /* Responsive layout - makes a two column-layout instead of four columns */
-@media screen and (max-width: 800px) {
+@media all and (max-width: 768px) {
   .column {
     -ms-flex: 50%;
     flex: 50%;
@@ -47,7 +50,7 @@ body {
 }
 
 /* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
-@media screen and (max-width: 600px) {
+@media all and (max-width: 480px) {
   .column {
     -ms-flex: 100%;
     flex: 100%;
@@ -74,17 +77,12 @@ body {
       return in_array(strtolower($file_extension), ['jpeg', 'jpg', 'png', 'gif']);
     });
 
-    $columns = [
-      1 => [],
-      2 => [],
-      3 => [],
-      4 => []
-    ];
+    $columns = [];
 
     // sort the images into roughly equal columns
     $current_column = 1;
     foreach ($images as $filename) {
-      $current_column = $current_column > 4 ? 1 : $current_column;
+      $current_column = $current_column > 3 ? 1 : $current_column;
 
       $columns[$current_column][] = $filename;
 
