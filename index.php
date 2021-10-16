@@ -64,42 +64,51 @@ body {
 </div>
 
 <!-- Photo Grid -->
+<?php
+    $dir_contents = scandir('images');
+
+    // filter out everything except images
+    $images = array_filter($dir_contents, function ($filename) {
+      $file_extension = pathinfo('images/' . $filename, PATHINFO_EXTENSION);
+
+      return in_array(strtolower($file_extension), ['jpeg', 'jpg', 'png', 'gif']);
+    });
+
+    $columns = [
+      1 => [],
+      2 => [],
+      3 => [],
+      4 => []
+    ];
+
+    // sort the images into roughly equal columns
+    $current_column = 1;
+    foreach ($images as $filename) {
+      $current_column = $current_column > 4 ? 1 : $current_column;
+
+      $columns[$current_column][] = $filename;
+
+      $current_column++;
+    }
+
+?>
+
 <div class="row">
+
+
+<?php foreach ($columns as $column) : // display the columns ?>
+
   <div class="column">
-    <img src="https://www.w3schools.com/w3images/wedding.jpg" style="width:100%">
-    <img src="https://www.w3schools.com/w3images/rocks.jpg" style="width:100%">
-    <img src="https://www.w3schools.com/w3images/falls2.jpg" style="width:100%">
-    <img src="https://www.w3schools.com/w3images/paris.jpg" style="width:100%">
-    <img src="https://www.w3schools.com/w3images/nature.jpg" style="width:100%">
-    <img src="https://www.w3schools.com/w3images/mist.jpg" style="width:100%">
-    <img src="https://www.w3schools.com/w3images/paris.jpg" style="width:100%">
-  </div>
-  <div class="column">
-    <img src="https://www.w3schools.com/w3images/underwater.jpg" style="width:100%">
-    <img src="https://www.w3schools.com/w3images/ocean.jpg" style="width:100%">
-    <img src="https://www.w3schools.com/w3images/wedding.jpg" style="width:100%">
-    <img src="https://www.w3schools.com/w3images/mountainskies.jpg" style="width:100%">
-    <img src="https://www.w3schools.com/w3images/rocks.jpg" style="width:100%">
-    <img src="https://www.w3schools.com/w3images/underwater.jpg" style="width:100%">
-  </div>
-  <div class="column">
-    <img src="https://www.w3schools.com/w3images/wedding.jpg" style="width:100%">
-    <img src="https://www.w3schools.com/w3images/rocks.jpg" style="width:100%">
-    <img src="https://www.w3schools.com/w3images/falls2.jpg" style="width:100%">
-    <img src="https://www.w3schools.com/w3images/paris.jpg" style="width:100%">
-    <img src="https://www.w3schools.com/w3images/nature.jpg" style="width:100%">
-    <img src="https://www.w3schools.com/w3images/mist.jpg" style="width:100%">
-    <img src="https://www.w3schools.com/w3images/paris.jpg" style="width:100%">
-  </div>
-  <div class="column">
-    <img src="https://www.w3schools.com/w3images/underwater.jpg" style="width:100%">
-    <img src="https://www.w3schools.com/w3images/ocean.jpg" style="width:100%">
-    <img src="https://www.w3schools.com/w3images/wedding.jpg" style="width:100%">
-    <img src="https://www.w3schools.com/w3images/mountainskies.jpg" style="width:100%">
-    <img src="https://www.w3schools.com/w3images/rocks.jpg" style="width:100%">
-    <img src="https://www.w3schools.com/w3images/underwater.jpg" style="width:100%">
-  </div>
-</div>
+
+    <?php foreach ($column as $filename) : ?>
+      <img src="/images/<?= $filename ?>" style="width:100%">
+    <?php endforeach; ?>
+
+  </div>  <!-- .column -->
+
+<?php endforeach; ?>
+
+</div> <!-- .row -->
 
 </body>
 </html>
