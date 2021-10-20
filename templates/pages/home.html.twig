@@ -137,72 +137,47 @@
   }
 
 </style>
-{% endblock %}
+{% endblock %}  {# styles #}
 
 {% block header %}
 <div class="header">
-  <h0>Khamsi-Briggs Family Images</h1>
+  <h1>Khamsi-Briggs Family Images</h1>
   <p>Est qui excepteur exercitation culpa commodo laborum est voluptate commodo nulla adipisicing cupidatat dolore. Tempor ullamco excepteur excepteur proident. Officia amet eu qui cillum ullamco sunt adipisicing eu veniam. Laborum enim mollit anim ad magna officia nulla incididunt non sit. Et excepteur ea labore laborum magna ea magna magna veniam aliqua. Dolor ut velit laborum esse adipisicing aute elit proident.</p>
 </div>
-{% endblock %}
+{% endblock header %}  {# header #}
 
 {% block body %}
-<?php
-    $dir_contents = scandir('images', SCANDIR_SORT_NONE);
-
-    // filter out everything except images
-    $images = array_filter($dir_contents, function ($filename) {
-      $file_extension = pathinfo('images/' . $filename, PATHINFO_EXTENSION);
-
-      return in_array(strtolower($file_extension), ['jpeg', 'jpg', 'png', 'gif']);
-    });
-
-    $columns = [];
-
-    // sort the images into roughly equal columns
-    $current_column = 0;
-    foreach ($images as $filename) {
-      $current_column = $current_column > 2 ? 1 : $current_column;
-
-      $columns[$current_column][] = $filename;
-
-      $current_column++;
-    }
-
-?>
-
 <div class="row">
 
-
-<?php foreach ($columns as $column_key => $column) : // display the columns ?>
-
+{% for key, column in columns %}
   <div class="column">
 
-    <?php foreach ($column as $position => $filename) : ?>
+    {% for position, filename in column %}
 
-      <?php $id = "column{$column_key}-{$position}" ?>
-      <img src="/images/<?= $filename ?>" id="<?= $id ?>" class="image" style="width:99%" alt="Amet sunt eu enim cillum proident commodo ipsum elit.">
+      {#<?php $id = "column{$column_key}-{$position}" ?>#}
+      {% set id = "column#{key}-#{position}" %}
+      <img src="/images/{{ filename }}" id="{{ id }}" class="image" style="width:99%" alt="Amet sunt eu enim cillum proident commodo ipsum elit.">
 
       <!-- The Modal -->
-      <div id="<?= "{$id}-modal" ?>" class="modal">
+      <div id="{{ id }}-modal" class="modal">
 
         <!-- The Close Button -->
         <span class="close">&times;</span>
 
         <!-- Modal Content (The Image) -->
-        <img class="modal-content" id="<?= "{$id}-modal-image" ?>">
+        <img class="modal-content" id="{{ id }}-modal-image">
 
         <!-- Modal Caption (Image Text) -->
-        <div id="<?= "{$id}-caption" ?>" class="caption"></div>
+        <div id="{{ id }}-caption" class="caption"></div>
       </div>
-    <?php endforeach; ?>
+    {% endfor %}
 
   </div>  <!-- .column -->
 
-<?php endforeach; ?>
+{% endfor %}
 
 </div> <!-- .row -->
-{% endblock %}
+{% endblock %}  {# body #}
 
 {% block javascripts %}
 <script>
