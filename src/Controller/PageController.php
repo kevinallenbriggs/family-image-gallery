@@ -23,9 +23,9 @@ class PageController extends AbstractController
         $columns = [];
 
         // sort the images into roughly equal columns
-        $current_column = 0;
+        $current_column = 1;
         foreach ($images as $filename) {
-            $current_column = $current_column > 2 ? 1 : $current_column;
+            $current_column = $current_column > 3 ? 1 : $current_column;
 
             $columns[$current_column][] = $filename;
 
