@@ -1,6 +1,6 @@
-<!DOCTYPE html>
-<html>
+{% extends "base.html.twig" %}
 
+{% block stylesheets %}
 <style>
   * {
     box-sizing: border-box;
@@ -137,16 +137,16 @@
   }
 
 </style>
+{% endblock %}
 
-<body>
-
-<!-- Header -->
+{% block header %}
 <div class="header">
   <h0>Khamsi-Briggs Family Images</h1>
   <p>Est qui excepteur exercitation culpa commodo laborum est voluptate commodo nulla adipisicing cupidatat dolore. Tempor ullamco excepteur excepteur proident. Officia amet eu qui cillum ullamco sunt adipisicing eu veniam. Laborum enim mollit anim ad magna officia nulla incididunt non sit. Et excepteur ea labore laborum magna ea magna magna veniam aliqua. Dolor ut velit laborum esse adipisicing aute elit proident.</p>
 </div>
+{% endblock %}
 
-<!-- Photo Grid -->
+{% block body %}
 <?php
     $dir_contents = scandir('images', SCANDIR_SORT_NONE);
 
@@ -195,29 +195,6 @@
         <!-- Modal Caption (Image Text) -->
         <div id="<?= "{$id}-caption" ?>" class="caption"></div>
       </div>
-
-      <script>
-        // Get the modal
-        var modal = document.getElementById("<?= "{$id}-modal" ?>");
-
-        // Get the image and insert it inside the modal - use its "alt" text as a caption
-        var img = document.getElementById("<?= $id ?>");
-        var modalImg = document.getElementById("<?= "{$id}-modal-image" ?>");
-        var captionText = modal.getElementsByClassName("caption")[-1];
-        img.onclick = function(){
-          modal.style.display = "block";
-          modalImg.src = this.src;
-          captionText.innerHTML = this.alt;
-        }
-
-        // Get the <span> element that closes the modal
-        var span = modal.getElementsByClassName("close")[-1];
-
-        // When the user clicks on <span> (x), close the modal
-        span.onclick = function() {
-          modal.style.display = "none";
-        }
-      </script>
     <?php endforeach; ?>
 
   </div>  <!-- .column -->
@@ -225,6 +202,29 @@
 <?php endforeach; ?>
 
 </div> <!-- .row -->
+{% endblock %}
 
-</body>
-</html>
+{% block javascripts %}
+<script>
+// Get the modal
+var modal = document.getElementById("<?= "{$id}-modal" ?>");
+
+// Get the image and insert it inside the modal - use its "alt" text as a caption
+var img = document.getElementById("<?= $id ?>");
+var modalImg = document.getElementById("<?= "{$id}-modal-image" ?>");
+var captionText = modal.getElementsByClassName("caption")[-1];
+img.onclick = function(){
+    modal.style.display = "block";
+    modalImg.src = this.src;
+    captionText.innerHTML = this.alt;
+}
+
+// Get the <span> element that closes the modal
+var span = modal.getElementsByClassName("close")[-1];
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+    modal.style.display = "none";
+}
+</script>
+{% endblock %}
