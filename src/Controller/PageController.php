@@ -11,11 +11,13 @@ class PageController extends AbstractController
     #[Route('/', name: 'home')]
     public function index(): Response
     {
-        $dir_contents = scandir('images', SCANDIR_SORT_NONE);
+        $imageDirectory = $this->getParameter('kernel.project_dir') . '/public/images';
+
+        $dir_contents = scandir($imageDirectory, SCANDIR_SORT_NONE);
 
         // filter out everything except images
-        $images = array_filter($dir_contents, function ($filename) {
-            $file_extension = pathinfo('images/' . $filename, PATHINFO_EXTENSION);
+        $images = array_filter($dir_contents, function ($filename) use ($imageDirectory) {
+            $file_extension = pathinfo("{$imageDirectory}/{$filename}", PATHINFO_EXTENSION);
 
             return in_array(strtolower($file_extension), ['jpeg', 'jpg', 'png', 'gif']);
         });
