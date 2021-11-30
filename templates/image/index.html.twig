@@ -1,20 +1,74 @@
-{% extends 'base.html.twig' %}
+{% extends "base.html.twig" %}
 
-{% block title %}Hello ImageController!{% endblock %}
+{% block title %}
+    Images | The Khamsi-Briggs Family
+{% endblock title %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+{% endblock stylesheets %}
+
+{% block header %}
+    <div class="header">
+        <h1>Khamsi-Briggs Family Images</h1>
+        <p>Est qui excepteur exercitation culpa commodo laborum est voluptate commodo nulla adipisicing cupidatat dolore. Tempor ullamco excepteur excepteur proident. Officia amet eu qui cillum ullamco sunt adipisicing eu veniam. Laborum enim mollit anim ad magna officia nulla incididunt non sit. Et excepteur ea labore laborum magna ea magna magna veniam aliqua. Dolor ut velit laborum esse adipisicing aute elit proident.</p>
+    </div>
+{% endblock header %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <div class="row">
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    {% for key, column in columns %}
+    <div class="column">
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/media/devel/family-image-gallery/src/Controller/ImageController.php'|file_link(0) }}">src/Controller/ImageController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/media/devel/family-image-gallery/templates/image/index.html.twig'|file_link(0) }}">templates/image/index.html.twig</a></code></li>
-    </ul>
-</div>
-{% endblock %}
+        {% for position, filename in column %}
+
+        {#<?php $id = "column{$column_key}-{$position}" ?>#}
+        {% set id = "column#{key}-#{position}" %}
+        <img src="/images/{{ filename }}" id="{{ id }}" class="image" style="width:99%" alt="Amet sunt eu enim cillum proident commodo ipsum elit.">
+
+        <!-- The Modal -->
+        <div id="{{ id }}-modal" class="modal">
+
+            <!-- The Close Button -->
+            <span class="close">&times;</span>
+
+            <!-- Modal Content (The Image) -->
+            <img class="modal-content" id="{{ id }}-modal-image">
+
+            <!-- Modal Caption (Image Text) -->
+            <div id="{{ id }}-caption" class="caption"></div>
+        </div>
+            <script>
+                // Get the modal
+                var modal = document.getElementById("{{ id }}-modal");
+
+                // Get the image and insert it inside the modal - use its "alt" text as a caption
+                var img = document.getElementById("{{ id }}");
+                var modalImg = document.getElementById("{{ id }}-modal-image");
+                var captionText = modal.getElementsByClassName("caption")[-1];
+                img.onclick = function(){
+                    modal.style.display = "block";
+                    modalImg.src = this.src;
+                    // captionText.innerHTML = this.alt;
+                }
+
+                // Get the <span> element that closes the modal
+                var span = modal.getElementsByClassName("close")[0];
+
+                // When the user clicks on <span> (x), close the modal
+                span.onclick = function() {
+                    modal.style.display = "none";
+                }
+            </script>
+        {% endfor %}
+
+    </div>  <!-- .column -->
+
+    {% endfor %}
+
+    </div> <!-- .row -->
+{% endblock body %}
+
+{% block scripts %}
+{% endblock scripts%}
