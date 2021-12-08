@@ -2,18 +2,25 @@
 
 namespace App\Controller;
 
-use App\ImageGatherer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class PageController extends AbstractController
 {
-    #[Route('/', name: 'images')]
-    public function images(): Response
+    #[Route('/', name: 'home')]
+    public function index(): Response
     {
-        $gatherer = new ImageGatherer();
-        $images = $gatherer->fromDir($this->getParameter('kernel.project_dir') . '/public/images');
+        $imageDirectory = $this->getParameter('kernel.project_dir') . '/public/images';
+
+        $dir_contents = scandir($imageDirectory, SCANDIR_SORT_NONE);
+
+        // filter out everything except images
+        $images = array_filter($dir_contents, function ($filename) use ($imageDirectory) {
+            $file_extension = pathinfo("{$imageDirectory}/{$filename}", PATHINFO_EXTENSION);
+
+            return in_array(strtolower($file_extension), ['jpeg', 'jpg', 'png', 'gif']);
+        });
 
         $columns = [];
 
@@ -27,6 +34,6 @@ class PageController extends AbstractController
             $current_column++;
         }
 
-        return $this->render('pages/images.html.twig', ['columns' => $columns]);
+        return $this->render('pages/home.html.twig', ['columns' => $columns]);
     }
 }
