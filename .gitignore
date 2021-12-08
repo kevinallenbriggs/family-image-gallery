@@ -1,4 +1,4 @@
-/images/
+/public/images
 /.env
 
 ###> symfony/framework-bundle ###
